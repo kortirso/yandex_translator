@@ -3,16 +3,7 @@ defmodule YandexTranslator do
   Documentation for YandexTranslator.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> YandexTranslator.hello
-      :world
-
-  """
-  def hello do
-    :world
-  end
+  defdelegate langs, to: YandexTranslator.Langs, as: :run
+  defdelegate detect(args), to: YandexTranslator.Detect, as: :run
+  defdelegate translate(args), to: YandexTranslator.Translate, as: :run
 end
