@@ -8,7 +8,7 @@ defmodule YandexTranslator.Mixfile do
   def project do
     [
       app: :yandex_translator,
-      version: "0.1.0",
+      version: "0.9.0",
       elixir: "~> 1.5",
       description: @description,
       build_embedded: Mix.env == :prod,
