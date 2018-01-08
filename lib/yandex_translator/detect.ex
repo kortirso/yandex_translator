@@ -1,4 +1,8 @@
 defmodule YandexTranslator.Detect do
+  @moduledoc """
+  Module for language detection
+  """
+
   def run(args) do
     url = "https://translate.yandex.net/api/v1.5/tr.json/detect?key=#{Application.get_env(:yandex_translator, :subscription_key)}&text=#{args[:text]}"
     options = [ssl: [{:versions, [:'tlsv1.2']}], recv_timeout: 500]

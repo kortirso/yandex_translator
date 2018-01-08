@@ -1,4 +1,8 @@
 defmodule YandexTranslator.Translate do
+  @moduledoc """
+  Module for text translation
+  """
+
   def run(args) do
     url = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=#{Application.get_env(:yandex_translator, :subscription_key)}&text=#{args[:text]}&lang=#{args[:to]}"
     options = [ssl: [{:versions, [:'tlsv1.2']}], recv_timeout: 500]
