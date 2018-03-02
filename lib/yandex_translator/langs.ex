@@ -4,7 +4,7 @@ defmodule YandexTranslator.Langs do
   """
 
   def run do
-    key = args[:key] ? args[:key] : Application.get_env(:yandex_translator, :subscription_key)
+    key = if args[:key], do: args[:key], else: Application.get_env(:yandex_translator, :subscription_key)
     url = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=#{key)}"
     options = [ssl: [{:versions, [:'tlsv1.2']}], recv_timeout: 500]
     case HTTPoison.get(url, [], options) do
