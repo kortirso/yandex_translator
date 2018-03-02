@@ -31,8 +31,8 @@ defmodule YandexTranslator.Mixfile do
 
   defp deps do
     [
-      {:httpoison, "~> 1.0.0"},
-      {:poison, "~> 3.1.0"},
+      {:httpoison, "~> 0.13"},
+      {:poison, "~> 3.1"},
       {:ex_doc, "~> 0.18", only: :dev}
     ]
   end
