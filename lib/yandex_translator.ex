@@ -16,11 +16,24 @@ defmodule YandexTranslator do
     call("langs", key: "")
   end
 
+  @doc """
+  Language detection by text
+  """
+  @spec detect(keyword()) :: tuple()
+
+  def detect(args) do
+    call("detect", args)
+  end
+
+  def detect() do
+    call("detect", key: "")
+  end
+
   defp call(type, args) do
     type
     |> generate_url(args)
     |> prepare_url(type)
-    |> fetch(args[:format])
+    |> fetch(args)
     |> parse(args[:format])
   end
 
@@ -32,6 +45,7 @@ defmodule YandexTranslator do
   defp valid_args(type) do
     case type do
       "langs" -> [:key, :ui]
+      "detect" -> [:key, :text, :hint]
       _ -> []
     end
   end
@@ -59,12 +73,13 @@ defmodule YandexTranslator do
   defp api_endpoints(type) do
     case type do
       "langs" -> "/getLangs"
+      "detect" -> "/detect"
       _ -> ""
     end
   end
 
-  defp fetch(url, format) do
-    base_url = define_url_for_format(format)
+  defp fetch(url, args) do
+    base_url = define_url_for_format(args[:format])
     options = [ssl: [{:versions, [:'tlsv1.2']}], recv_timeout: 500]
     case HTTPoison.post(base_url <> url, "", [], options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, body}
