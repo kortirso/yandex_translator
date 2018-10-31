@@ -99,15 +99,11 @@ defmodule YandexTranslator do
     "https://translate.yandex.net/api/v1.5/tr"
   end
 
-  defp parse({result, response}, format) when result == :ok do
+  defp parse({result, response}, format) do
     if format == "json" do
-      {:ok, Poison.Parser.parse!(response)}
+      {result, Poison.Parser.parse!(response)}
     else
-      {:ok, response}
+      {result, response}
     end
-  end
-
-  defp parse(response, _format) do
-    response
   end
 end
