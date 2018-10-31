@@ -12,12 +12,8 @@ defmodule YandexTranslator do
     call("langs", args)
   end
 
-  def langs() do
-    call("langs", key: "")
-  end
-
   @doc """
-  Language detection by text
+  Language detection for text
   """
   @spec detect(keyword()) :: tuple()
 
@@ -25,8 +21,13 @@ defmodule YandexTranslator do
     call("detect", args)
   end
 
-  def detect() do
-    call("detect", key: "")
+  @doc """
+  Text translation
+  """
+  @spec translate(keyword()) :: tuple()
+
+  def translate(args) do
+    call("translate", args)
   end
 
   defp call(type, args) do
@@ -46,6 +47,7 @@ defmodule YandexTranslator do
     case type do
       "langs" -> [:key, :ui]
       "detect" -> [:key, :text, :hint]
+      "translate" -> [:key, :text, :lang]
       _ -> []
     end
   end
@@ -74,6 +76,7 @@ defmodule YandexTranslator do
     case type do
       "langs" -> "/getLangs"
       "detect" -> "/detect"
+      "translate" -> "/translate"
       _ -> ""
     end
   end
