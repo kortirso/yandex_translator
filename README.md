@@ -23,20 +23,77 @@ To sign up for the free tier, do the following:
 
 ## Usage
 
+### Supported languages
+
+Request for getting list of supported languages is #langs.
+
 ```elixir
-# Request for getting possible translation directions
-YandexTranslator.langs
+  YandexTranslator.langs
+```
+    key - access key, required or optional (if presented in config)
+    format - one of the [xml|json], default - xml
+    ui - language code for getting language translations
 
-# Request for detecting language of the text
-# text - text for detecting, required
-# hint - list of possible languages, optional
-YandexTranslator.detect(text: "Hello")
+#### Responces
 
-# Request for translating of the text
-# text - text for detecting, required
-# to - translating direction, required
-# from - language of the text, optional
-YandexTranslator.translate(text: "Hello", to: "ru")
+```elixir
+  {:ok,
+    %{
+      "dirs" => ["az-ru", "be-bg", "be-cs", "be-de", "be-en", "be-es", "be-fr",
+      "be-it", "be-pl", "be-ro", "be-ru", "be-sr", "be-tr", "bg-be", "bg-ru",
+      "bg-uk", "ca-en", "ca-ru", "cs-be", "cs-en", "cs-ru", "cs-uk", "da-en",
+      "da-ru", "de-be", "de-en", "de-es", "de-fr", "de-it", "de-ru", "de-tr",
+      "de-uk", "el-en", "el-ru", "en-be", "en-ca", "en-cs", "en-da", "en-de",
+      "en-el", "en-es", "en-et", "en-fi", "en-fr", "en-hu", "en-it", "en-lt", ...]
+    }
+  }
+```
+
+### Detection
+
+Request for detecting language of text is #detect.
+
+```elixir
+  YandexTranslator.detect(text: "Hello")
+```
+    key - access key, required or optional (if presented in config)
+    format - one of the [xml|json], default - xml
+    text - text, required
+    hint - list of possible languages, optional, example - "en,ru"
+
+#### Responces
+
+```elixir
+  {:ok,
+    %{
+      "code" => 200,
+      "lang" => "en"
+    }
+  }
+```
+
+### Translation
+
+Request for translating text is #translate.
+
+```elixir
+  YandexTranslator.translate(text: "Hello", lang: "en-ru")
+```
+    key - access key, required or optional (if presented in config)
+    format - one of the [xml|json], default - xml
+    text - text, required
+    lang - direction of translation, example - "from-to" or "to"
+
+#### Responces
+
+```elixir
+  {:ok,
+    %{
+      "code" => 200,
+      "lang" => "en-ru",
+      "text" => ["Привет"]
+    }
+  }
 ```
 
 ## Configuration
