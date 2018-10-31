@@ -1,10 +1,6 @@
 defmodule YandexTranslator.Mixfile do
   use Mix.Project
 
-  @moduledoc ~S"""
-  This module helps with translation through Yandex Translator API.
-  """
-
   @description """
     Translate strings using the Yandex Translator API. Requires that you have a Client ID. See README.md for information.
   """
@@ -13,7 +9,7 @@ defmodule YandexTranslator.Mixfile do
     [
       app: :yandex_translator,
       version: "0.9.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.7",
       description: @description,
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
@@ -31,7 +27,7 @@ defmodule YandexTranslator.Mixfile do
 
   defp deps do
     [
-      {:httpoison, "~> 1.0.0"},
+      {:httpoison, "~> 1.4"},
       {:poison, "~> 3.1.0"},
       {:ex_doc, "~> 0.18", only: :dev}
     ]
