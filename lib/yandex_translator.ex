@@ -8,8 +8,10 @@ defmodule YandexTranslator do
   """
   @spec langs(keyword()) :: tuple()
 
-  def langs(args) do
-    call("langs", args)
+  def langs(args \\ []) do
+    args
+    |> check_args_for_key
+    |> call("langs")
   end
 
   @doc """
@@ -17,8 +19,10 @@ defmodule YandexTranslator do
   """
   @spec detect(keyword()) :: tuple()
 
-  def detect(args) do
-    call("detect", args)
+  def detect(args \\ []) do
+    args
+    |> check_args_for_key
+    |> call("detect")
   end
 
   @doc """
@@ -26,11 +30,20 @@ defmodule YandexTranslator do
   """
   @spec translate(keyword()) :: tuple()
 
-  def translate(args) do
-    call("translate", args)
+  def translate(args \\ []) do
+    args
+    |> check_args_for_key
+    |> call("translate")
   end
 
-  defp call(type, args) do
+  defp check_args_for_key(args) do
+    if args[:key] == nil do
+      Keyword.put_new(args, :key, Application.get_env(:yandex_translator, :subscription_key))
+    end
+    args
+  end
+
+  defp call(args, type) do
     type
     |> generate_url(args)
     |> prepare_url(type)
