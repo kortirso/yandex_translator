@@ -10,7 +10,7 @@ by adding `yandex_translator` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:yandex_translator, "~> 0.9.0"}
+    {:yandex_translator, "~> 0.9.1"}
   ]
 end
 ```
@@ -32,7 +32,7 @@ Request for getting list of supported languages is #langs.
 ```
     key - access key, required or optional (if presented in config)
     format - one of the [xml|json], default - xml
-    ui - language code for getting language translations
+    ui - language code for getting language translations, example - "en"
 
 #### Responces
 
@@ -106,6 +106,20 @@ In config/config.exs, add:
 config :yandex_translator,
   subscription_key: "Your-Subscription-Key"
 ```
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/kortirso/open_street_map.
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+## Disclaimer
+
+Use this package at your own peril and risk.
+
+## Documentation
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
