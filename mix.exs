@@ -29,7 +29,7 @@ defmodule YandexTranslator.Mixfile do
     [
       {:httpoison, "~> 1.4"},
       {:poison, "~> 3.1.0"},
-      {:ex_doc, "~> 0.18", only: :dev}
+      {:ex_doc, "~> 0.19", only: :dev}
     ]
   end
 
