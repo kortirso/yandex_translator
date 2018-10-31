@@ -46,9 +46,8 @@ The default behaviour is to configure using the application environment:
 In config/config.exs, add:
 
 ```elixir
-config :bing_translator,
-  subscription_key: "Your-Subscription-Key",
-  http_client_options: []  #  [ssl: [{:versions, [:"tlsv1.2"]}]]
+config :yandex_translator,
+  subscription_key: "Your-Subscription-Key"
 ```
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
