@@ -10,7 +10,7 @@ by adding `yandex_translator` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:yandex_translator, "~> 0.9.1"}
+    {:yandex_translator, "~> 0.9.2"}
   ]
 end
 ```
@@ -101,7 +101,7 @@ The default behaviour is to configure using the application environment:
 In config/config.exs, add:
 
 ```elixir
-config :yandex_translator, api_key: "API_KEY"
+  config :yandex_translator, api_key: "API_KEY"
 ```
 
 ## Contributing

@@ -2,13 +2,13 @@ defmodule YandexTranslator.Mixfile do
   use Mix.Project
 
   @description """
-    Translate strings using the Yandex Translator API. Requires that you have a Client ID. See README.md for information.
+    Translate word and phrases using the Yandex Translate API. Requires that you have a Client ID. See README.md for information.
   """
 
   def project do
     [
       app: :yandex_translator,
-      version: "0.9.1",
+      version: "0.9.2",
       elixir: "~> 1.7",
       description: @description,
       build_embedded: Mix.env == :prod,

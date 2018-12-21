@@ -55,7 +55,7 @@ defmodule YandexTranslator do
 
   def langs(options) when is_list(options) do
     case options[:cloud] do
-      true -> Cloud.call("languages")
+      true -> Cloud.call("languages", options)
       _ -> Client.call("langs", options)
     end
   end
