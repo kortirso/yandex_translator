@@ -1,6 +1,6 @@
 # YandexTranslator
 
-A simple Elixir interface to Yandex Translator's translation API
+A simple Elixir interface to Yandex Translate's translation API
 
 ## Installation
 
@@ -17,9 +17,7 @@ end
 
 ## Getting a Subscription Key
 
-To sign up for the free tier, do the following:
-
-- Text Translator is [here](https://translate.yandex.ru/developers/keys)
+To sign up for the free tier go [here](https://translate.yandex.ru/developers/keys)
 
 ## Usage
 
@@ -54,7 +52,7 @@ Request for getting list of supported languages is #langs.
 Request for detecting language of text is #detect.
 
 ```elixir
-  YandexTranslator.detect(text: "Hello")
+  YandexTranslator.detect([text: "Hello"])
 ```
     key - access key, required or optional (if presented in config)
     format - one of the [xml|json], default - xml
@@ -77,12 +75,12 @@ Request for detecting language of text is #detect.
 Request for translating text is #translate.
 
 ```elixir
-  YandexTranslator.translate(text: "Hello", lang: "en-ru")
+  YandexTranslator.translate([text: "Hello", lang: "en-ru"])
 ```
     key - access key, required or optional (if presented in config)
-    format - one of the [xml|json], default - xml
+    format - one of the [xml|json], optional, default - xml
     text - text, required
-    lang - direction of translation, example - "from-to" or "to"
+    lang - direction of translation, required, example - "from-to" or "to"
 
 #### Responces
 
@@ -103,13 +101,12 @@ The default behaviour is to configure using the application environment:
 In config/config.exs, add:
 
 ```elixir
-config :yandex_translator,
-  subscription_key: "Your-Subscription-Key"
+config :yandex_translator, api_key: "API_KEY"
 ```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/kortirso/open_street_map.
+Bug reports and pull requests are welcome on GitHub at https://github.com/kortirso/yandex_translator.
 
 ## License
 

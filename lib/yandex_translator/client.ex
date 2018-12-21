@@ -37,15 +37,13 @@ defmodule YandexTranslator.Client do
   defp fetch(url, format) do
     case HTTPoison.post(base_url(format) <> url, "", [], options()) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, body}
-      {:ok, %HTTPoison.Response{status_code: 400, body: body}} -> {:error, body}
-      {:ok, %HTTPoison.Response{status_code: 404}} -> {:error, "Page not found"}
+      {:ok, %HTTPoison.Response{body: body}} -> {:error, body}
       {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason}
       _ -> {:error, "Unknown error"}
     end
   end
 
-  defp parse({:ok, response}, "json"), do: {:ok, Poison.Parser.parse!(response)}
-  defp parse({:ok, response}, _), do: {:ok, response}
+  defp parse({result, response}, "json"), do: {result, Poison.Parser.parse!(response)}
   defp parse(response, _), do: response
 
   # ADDITIONAL FUNCTIONS
