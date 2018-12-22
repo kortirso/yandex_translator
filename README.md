@@ -10,7 +10,7 @@ by adding `yandex_translator` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:yandex_translator, "~> 0.9.2"}
+    {:yandex_translator, "~> 0.9.3"}
   ]
 end
 ```
