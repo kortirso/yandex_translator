@@ -39,7 +39,6 @@ defmodule YandexTranslator.Client do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, body}
       {:ok, %HTTPoison.Response{body: body}} -> {:error, body}
       {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason}
-      _ -> {:error, "Unknown error"}
     end
   end
 

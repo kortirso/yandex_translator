@@ -1,3 +1,6 @@
 # use Mix.Config
 
 # config :yandex_translator, api_key: "API_KEY"
+
+# config :yandex_translator, api_key_cloud: ""
+# config :yandex_translator, folder_id: ""

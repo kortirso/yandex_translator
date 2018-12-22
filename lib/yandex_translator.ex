@@ -2,8 +2,16 @@ defmodule YandexTranslator do
   @moduledoc """
   Elixir client for Yandex.Translate API
 
+  ## Configuration (new API)
+  An API key and folder id can be set in your application's config.
+  For getting api key and folder is check readme.
+
+      config :yandex_translator, cloud_api_key: "API_KEY"
+      config :yandex_translator, cloud_folder_id: "FOLDER_ID"
+
   ## Configuration (old API)
   An API key can be set in your application's config.
+  For getting api key check readme.
 
       config :yandex_translator, api_key: "API_KEY"
 
@@ -12,7 +20,39 @@ defmodule YandexTranslator do
   alias YandexTranslator.{Client, Cloud}
 
   @doc """
-  Getting available languages for translation
+  Get IAM-token for using it in requests to Yandex.Cloud
+  Valid 12 hours.
+
+  ## Example
+
+      iex> YandexTranslator.get_iam_token
+      {:ok, %{"iamToken" => ""}}
+
+  """
+  @spec get_iam_token() :: {}
+
+  def get_iam_token, do: get_iam_token([])
+
+  @doc """
+  Get IAM-token for using it in requests to Yandex.Cloud
+  Valid 12 hours.
+
+  ## Example
+
+      iex> YandexTranslator.get_iam_token([])
+      {:ok, %{"iamToken" => ""}}
+
+  ### Options
+
+      key - API KEY, required or optional (if presented in configuration)
+
+  """
+  @spec get_iam_token(keyword()) :: {}
+
+  def get_iam_token(options) when is_list(options), do: Cloud.get_iam_token(options)
+
+  @doc """
+  Get available languages for translation
 
   ## Example
 
@@ -24,7 +64,7 @@ defmodule YandexTranslator do
   def langs, do: langs([])
 
   @doc """
-  Getting available languages for translation
+  Get available languages for translation
 
   ## Example (old API)
 
