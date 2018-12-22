@@ -149,9 +149,9 @@ defmodule YandexTranslator do
 
       iam_token - IAM-token, required
       folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
-      text - text for detection, required,
-      source - source language, ISO 639-1 format (like "en"), optional,
-      target - target language, ISO 639-1 format (like "ru"), required,
+      text - text for detection, required
+      source - source language, ISO 639-1 format (like "en"), optional
+      target - target language, ISO 639-1 format (like "ru"), required
       format - text format, one of the [plain|html], default - plain, optional
 
   ## Example (old API)

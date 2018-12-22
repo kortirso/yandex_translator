@@ -15,84 +15,15 @@ def deps do
 end
 ```
 
-## Getting a Subscription Key
+## Get access to API
 
-To sign up for the free tier go [here](https://translate.yandex.ru/developers/keys)
+### Getting a Cloud Key and Folder ID (for cloud API)
 
-## Usage
+To sign up go [here](https://cloud.yandex.com/docs/translate/concepts/auth)
 
-### Supported languages
+### Getting a Subscription Key (for old API)
 
-Request for getting list of supported languages is #langs.
-
-```elixir
-  YandexTranslator.langs
-```
-    key - access key, required or optional (if presented in config)
-    format - one of the [xml|json], default - xml
-    ui - language code for getting language translations, example - "en"
-
-#### Responces
-
-```elixir
-  {:ok,
-    %{
-      "dirs" => ["az-ru", "be-bg", "be-cs", "be-de", "be-en", "be-es", "be-fr",
-      "be-it", "be-pl", "be-ro", "be-ru", "be-sr", "be-tr", "bg-be", "bg-ru",
-      "bg-uk", "ca-en", "ca-ru", "cs-be", "cs-en", "cs-ru", "cs-uk", "da-en",
-      "da-ru", "de-be", "de-en", "de-es", "de-fr", "de-it", "de-ru", "de-tr",
-      "de-uk", "el-en", "el-ru", "en-be", "en-ca", "en-cs", "en-da", "en-de",
-      "en-el", "en-es", "en-et", "en-fi", "en-fr", "en-hu", "en-it", "en-lt", ...]
-    }
-  }
-```
-
-### Detection
-
-Request for detecting language of text is #detect.
-
-```elixir
-  YandexTranslator.detect([text: "Hello"])
-```
-    key - access key, required or optional (if presented in config)
-    format - one of the [xml|json], default - xml
-    text - text, required
-    hint - list of possible languages, optional, example - "en,ru"
-
-#### Responces
-
-```elixir
-  {:ok,
-    %{
-      "code" => 200,
-      "lang" => "en"
-    }
-  }
-```
-
-### Translation
-
-Request for translating text is #translate.
-
-```elixir
-  YandexTranslator.translate([text: "Hello", lang: "en-ru"])
-```
-    key - access key, required or optional (if presented in config)
-    format - one of the [xml|json], optional, default - xml
-    text - text, required
-    lang - direction of translation, required, example - "from-to" or "to"
-
-#### Responces
-
-```elixir
-  {:ok,
-    %{
-      "code" => 200,
-      "lang" => "en-ru",
-      "text" => ["Привет"]
-    }
-  }
-```
+To sign up go [here](https://translate.yandex.ru/developers/keys)
 
 ## Configuration
 
@@ -101,8 +32,106 @@ The default behaviour is to configure using the application environment:
 In config/config.exs, add:
 
 ```elixir
+  # for configuring access to cloud api
+  config :yandex_translator, cloud_api_key: "API_KEY"
+  config :yandex_translator, cloud_folder_id: "FOLDER_ID"
+
+  # for configuring access to old api
   config :yandex_translator, api_key: "API_KEY"
 ```
+
+## Usage
+
+### Get IAM-token for cloud API access
+
+Request for getting list of supported languages is #langs.
+
+```elixir
+  YandexTranslator.get_iam_token
+```
+
+#### Options
+
+key - API KEY, required or optional (if presented in configuration)
+
+### Supported languages
+
+Request for getting list of supported languages is #langs.
+For using cloud api options must contain iam_token param.
+
+```elixir
+  # cloud api request
+  YandexTranslator.langs([iam_token: ""])
+
+  # old api request
+  YandexTranslator.langs([])
+```
+
+#### Options for cloud api
+
+iam_token - IAM-token, required
+folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
+
+#### Options for old api
+
+key - access key, required or optional (if presented in config)
+format - one of the [xml|json], default - xml, optional
+ui - language code for getting language translations, optional, example - "en"
+
+### Detection
+
+Request for detecting language of text is #detect.
+For using cloud api options must contain iam_token param.
+
+```elixir
+  # cloud api request
+  YandexTranslator.detect([iam_token: "", text: "Hello"])
+
+  # old api request
+  YandexTranslator.detect([text: "Hello"])
+```
+
+#### Options for cloud api
+
+iam_token - IAM-token, required
+folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
+text - text for detection, required
+hint - list of possible languages, optional, example - "en,ru"
+
+#### Options for old api
+
+key - access key, required or optional (if presented in config)
+format - one of the [xml|json], default - xml, optional
+text - text, required
+hint - list of possible languages, optional, example - "en,ru"
+
+### Translation
+
+Request for translating text is #translate.
+For using cloud api options must contain iam_token param.
+
+```elixir
+  # cloud api request
+  YandexTranslator.translate([iam_token: "", text: "Hello", target: "ru"])
+
+  # old api request
+  YandexTranslator.translate([text: "Hello", lang: "en-ru"])
+```
+#### Options for cloud api
+
+iam_token - IAM-token, required
+folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
+text - text for detection, required
+source - source language, ISO 639-1 format (like "en"), optional
+target - target language, ISO 639-1 format (like "ru"), required
+format - text format, one of the [plain|html], default - plain, optional
+
+#### Options for old api
+
+key - access key, required or optional (if presented in config)
+format - one of the [xml|json], default - xml, optional
+text - text, required
+lang - direction of translation, required, example - "from-to" or "to"
 
 ## Contributing
 
