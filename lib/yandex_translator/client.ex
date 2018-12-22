@@ -3,8 +3,6 @@ defmodule YandexTranslator.Client do
   Client requests for old varsion of api, v 1.5
   """
 
-  @options [ssl: [{:versions, [:'tlsv1.2']}], recv_timeout: 500]
-
   @type api_key :: {:api_key, String.t()}
   @type path :: String.t()
 
@@ -31,13 +29,14 @@ defmodule YandexTranslator.Client do
   defp generate_url(type, args) do
     args
     |> Keyword.put_new(:key, api_key())
-    |> Enum.filter(fn({key, _}) -> Enum.member?(valid_args(type), key) end)
-    |> List.foldl("", fn({key, value}, acc) -> acc <> add_to_args(key, to_string(value), acc) end)
+    |> Enum.filter(fn {key, _} -> Enum.member?(valid_args(type), key) end)
+    |> Enum.map(fn {key, value} -> "#{key}=#{modify_phrase(value)}" end)
+    |> Enum.join("&")
     |> prepare_url(type)
   end
 
   defp fetch(url, format) do
-    case HTTPoison.post(base_url(format) <> url, "", [], @options) do
+    case HTTPoison.post(base_url(format) <> url, "", []) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, body}
       {:ok, %HTTPoison.Response{body: body}} -> {:error, body}
       {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason}
@@ -59,24 +58,15 @@ defmodule YandexTranslator.Client do
     end
   end
 
-  # first param in url params
-  defp add_to_args(key, value, ""), do: "?" <> key_value_param(key, modify_search(value))
-  defp add_to_args(key, value, _), do: "&" <> key_value_param(key, modify_search(value))
-
   # Modify all phrases with replacing spaces for +
-  defp modify_search(value), do: String.replace(value, ~r/\s+/, "+")
-
-  # Attach keys and values for url params string
-  defp key_value_param(key, value), do: "#{key}=#{value}"
+  defp modify_phrase(value), do: String.replace(value, ~r/\s+/, "+")
 
   # add type of request to url
-  defp prepare_url(url, type), do: add_type_to_url(type) <> url
-
-  defp add_type_to_url(type) do
+  defp prepare_url(url, type) do
     case type do
-      "langs" -> "/getLangs"
-      "detect" -> "/detect"
-      "translate" -> "/translate"
+      "langs" -> "/getLangs?#{url}"
+      "detect" -> "/detect?#{url}"
+      "translate" -> "/translate?#{url}"
       _ -> ""
     end
   end
