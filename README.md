@@ -52,7 +52,7 @@ Request for getting list of supported languages is #langs.
 
 #### Options
 
-key - API KEY, required or optional (if presented in configuration)
+    key - API KEY, required or optional (if presented in configuration)
 
 ### Supported languages
 
@@ -69,14 +69,14 @@ For using cloud api options must contain iam_token param.
 
 #### Options for cloud api
 
-iam_token - IAM-token, required
-folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
+    iam_token - IAM-token, required
+    folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
 
 #### Options for old api
 
-key - access key, required or optional (if presented in config)
-format - one of the [xml|json], default - xml, optional
-ui - language code for getting language translations, optional, example - "en"
+    key - access key, required or optional (if presented in config)
+    format - one of the [xml|json], default - xml, optional
+    ui - language code for getting language translations, optional, example - "en"
 
 ### Detection
 
@@ -93,17 +93,17 @@ For using cloud api options must contain iam_token param.
 
 #### Options for cloud api
 
-iam_token - IAM-token, required
-folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
-text - text for detection, required
-hint - list of possible languages, optional, example - "en,ru"
+    iam_token - IAM-token, required
+    folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
+    text - text for detection, required
+    hint - list of possible languages, optional, example - "en,ru"
 
 #### Options for old api
 
-key - access key, required or optional (if presented in config)
-format - one of the [xml|json], default - xml, optional
-text - text, required
-hint - list of possible languages, optional, example - "en,ru"
+    key - access key, required or optional (if presented in config)
+    format - one of the [xml|json], default - xml, optional
+    text - text, required
+    hint - list of possible languages, optional, example - "en,ru"
 
 ### Translation
 
@@ -119,19 +119,19 @@ For using cloud api options must contain iam_token param.
 ```
 #### Options for cloud api
 
-iam_token - IAM-token, required
-folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
-text - text for detection, required
-source - source language, ISO 639-1 format (like "en"), optional
-target - target language, ISO 639-1 format (like "ru"), required
-format - text format, one of the [plain|html], default - plain, optional
+    iam_token - IAM-token, required
+    folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
+    text - text for detection, required
+    source - source language, ISO 639-1 format (like "en"), optional
+    target - target language, ISO 639-1 format (like "ru"), required
+    format - text format, one of the [plain|html], default - plain, optional
 
 #### Options for old api
 
-key - access key, required or optional (if presented in config)
-format - one of the [xml|json], default - xml, optional
-text - text, required
-lang - direction of translation, required, example - "from-to" or "to"
+    key - access key, required or optional (if presented in config)
+    format - one of the [xml|json], default - xml, optional
+    text - text, required
+    lang - direction of translation, required, example - "from-to" or "to"
 
 ## Contributing
 
