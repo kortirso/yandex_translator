@@ -3,6 +3,8 @@ defmodule YandexTranslator.Client do
   Client requests for old varsion of api, v 1.5
   """
 
+  @options [ssl: [{:versions, [:'tlsv1.2']}], recv_timeout: 500]
+
   @type api_key :: {:api_key, String.t()}
   @type path :: String.t()
 
@@ -35,7 +37,7 @@ defmodule YandexTranslator.Client do
   end
 
   defp fetch(url, format) do
-    case HTTPoison.post(base_url(format) <> url, "", [], options()) do
+    case HTTPoison.post(base_url(format) <> url, "", [], @options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, body}
       {:ok, %HTTPoison.Response{body: body}} -> {:error, body}
       {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason}
@@ -82,8 +84,6 @@ defmodule YandexTranslator.Client do
   # define params for request
   defp base_url("json"), do: "https://translate.yandex.net/api/v1.5/tr.json"
   defp base_url(_), do: "https://translate.yandex.net/api/v1.5/tr"
-
-  defp options, do: [ssl: [{:versions, [:'tlsv1.2']}], recv_timeout: 500]
   
   # API KEY from config
   defp api_key, do: Application.get_env(:yandex_translator, :api_key) || ""

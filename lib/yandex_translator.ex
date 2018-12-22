@@ -29,7 +29,7 @@ defmodule YandexTranslator do
       {:ok, %{"iamToken" => ""}}
 
   """
-  @spec get_iam_token() :: {}
+  @spec get_iam_token() :: {:ok, %{iamToken: String.t()}}
 
   def get_iam_token, do: get_iam_token([])
 
@@ -47,7 +47,7 @@ defmodule YandexTranslator do
       key - API KEY, required or optional (if presented in configuration)
 
   """
-  @spec get_iam_token(keyword()) :: {}
+  @spec get_iam_token(keyword()) :: {:ok, %{iamToken: String.t()}}
 
   def get_iam_token(options) when is_list(options), do: Cloud.get_iam_token(options)
 
@@ -59,26 +59,28 @@ defmodule YandexTranslator do
       iex> YandexTranslator.langs
 
   """
-  @spec langs() :: {:ok, %{dirs: []}}
+  @spec langs() :: {:ok, %{}}
 
   def langs, do: langs([])
 
   @doc """
   Get available languages for translation
+  For using cloud api options must contain iam_token param.
+
+  ## Example (cloud API)
+
+      iex> YandexTranslator.langs([iam_token: ""])
+      {:ok, %{"languages" => [%{"language" => "az"}, %{...}, ...]}}
+
+  ### Options (cloud API)
+
+      iam_token - IAM-token, required
+      folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
 
   ## Example (old API)
 
       iex> YandexTranslator.langs([format: "json"])
-      {:ok,
-        %{
-         "dirs" => ["az-ru", "be-bg", "be-cs", "be-de", "be-en", "be-es", "be-fr",
-          "be-it", "be-pl", "be-ro", "be-ru", "be-sr", "be-tr", "bg-be", "bg-ru",
-          "bg-uk", "ca-en", "ca-ru", "cs-be", "cs-en", "cs-ru", "cs-uk", "da-en",
-          "da-ru", "de-be", "de-en", "de-es", "de-fr", "de-it", "de-ru", "de-tr",
-          "de-uk", "el-en", "el-ru", "en-be", "en-ca", "en-cs", "en-da", "en-de",
-          "en-el", "en-es", "en-et", "en-fi", "en-fr", "en-hu", "en-it", "en-lt", ...]
-        }
-      }
+      {:ok, %{"dirs" => ["az-ru", ...]}}
 
   ### Options (old API)
 
@@ -86,22 +88,31 @@ defmodule YandexTranslator do
       format - one of the [xml|json], optional, default - xml
       ui - language code for getting language translations, optional, example - "en"
 
-  ## Example (cloud API)
-
-      iex> YandexTranslator.langs([cloud: true])
-
   """
-  @spec langs(keyword()) :: tuple()
+  @spec langs(keyword()) :: {:ok, %{}}
 
   def langs(options) when is_list(options) do
-    case options[:cloud] do
-      true -> Cloud.call("languages", options)
-      _ -> Client.call("langs", options)
+    case options[:iam_token] do
+      nil -> Client.call("langs", options)
+      _ -> Cloud.call("languages", options)
     end
   end
 
   @doc """
   Detect language for text
+  For using cloud api options must contain iam_token param.
+
+  ## Example (cloud API)
+
+      iex> YandexTranslator.detect([iam_token: "", text: "Hello"])
+      {:ok, %{"language" => "en"}}
+
+  ### Options (cloud API)
+
+      iam_token - IAM-token, required
+      folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
+      text - text for detection, required
+      hint - list of possible languages, optional, example - "en,ru"
 
   ## Example (old API)
 
@@ -112,25 +123,36 @@ defmodule YandexTranslator do
 
       key - API KEY, required or optional (if presented in config)
       format - one of the [xml|json], optional, default - xml
-      text - text, required
+      text - text for detection, required
       hint - list of possible languages, optional, example - "en,ru"
 
-  ## Example (cloud API)
-
-      iex> YandexTranslator.detect([cloud: true])
-
   """
-  @spec detect(keyword()) :: tuple()
+  @spec detect(keyword()) :: {:ok, %{}}
 
   def detect(options) when is_list(options) do
-    case options[:cloud] do
-      true -> Cloud.call("detect", options)
-      _ -> Client.call("detect", options)
+    case options[:iam_token] do
+      nil -> Client.call("detect", options)
+      _ -> Cloud.call("detect", options)
     end
   end
 
   @doc """
-  Text translation
+  Translate word or phrase
+  For using cloud api options must contain iam_token param.
+
+  ## Example (cloud API)
+
+      iex> YandexTranslator.translate([iam_token: iam_token, text: "hello world", source: "en", target: "es"])
+      {:ok, %{"translations" => [%{"text" => "hola mundo"}]}}
+
+  ### Options (cloud API)
+
+      iam_token - IAM-token, required
+      folder_id - folder ID of your account at Yandex.Cloud, required or optional (if presented in configuration)
+      text - text for detection, required,
+      source - source language, ISO 639-1 format (like "en"), optional,
+      target - target language, ISO 639-1 format (like "ru"), required,
+      format - text format, one of the [plain|html], default - plain, optional
 
   ## Example (old API)
 
@@ -144,17 +166,13 @@ defmodule YandexTranslator do
       text - text, required
       lang - direction of translation, optional, example - "from-to" or "to"
 
-  ## Example (cloud API)
-
-      iex> YandexTranslator.translate([cloud: true])
-
   """
-  @spec translate(keyword()) :: tuple()
+  @spec translate(keyword()) :: {:ok, %{}}
 
   def translate(options) when is_list(options) do
-    case options[:cloud] do
-      true -> Cloud.call("translate", options)
-      _ -> Client.call("translate", options)
+    case options[:iam_token] do
+      nil -> Client.call("translate", options)
+      _ -> Cloud.call("translate", options)
     end
   end
 end
