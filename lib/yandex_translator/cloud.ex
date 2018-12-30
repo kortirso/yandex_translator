@@ -72,7 +72,7 @@ defmodule YandexTranslator.Cloud do
     args
     |> Keyword.put(:folderId, cloud_folder_id(args[:folder_id]))
     |> Enum.filter(fn {key, _} -> Enum.member?(valid_args(type), key) end)
-    |> Enum.map(fn {key, value} -> "#{key}=#{value}" end)
+    |> Enum.map(fn {key, value} -> "#{key}=#{URI.encode_www_form(value)}" end)
     |> Enum.join("&")
   end
 
@@ -86,7 +86,8 @@ defmodule YandexTranslator.Cloud do
     end
   end
 
-  defp cloud_folder_id(folder_id), do: folder_id || Application.get_env(:yandex_translator, :cloud_folder_id) || ""
+  defp cloud_folder_id(nil), do: Application.get_env(:yandex_translator, :cloud_folder_id) || ""
+  defp cloud_folder_id(folder_id), do: folder_id
 
   # define headers for request
   defp headers(iam_token), do: [{"Content-Type", "application/x-www-form-urlencoded"}, {"Authorization", "Bearer #{iam_token}"}]

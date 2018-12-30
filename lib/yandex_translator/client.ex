@@ -30,7 +30,7 @@ defmodule YandexTranslator.Client do
     args
     |> Keyword.put_new(:key, api_key())
     |> Enum.filter(fn {key, _} -> Enum.member?(valid_args(type), key) end)
-    |> Enum.map(fn {key, value} -> "#{key}=#{modify_phrase(value)}" end)
+    |> Enum.map(fn {key, value} -> "#{key}=#{URI.encode_www_form(value)}" end)
     |> Enum.join("&")
     |> prepare_url(type)
   end
@@ -57,9 +57,6 @@ defmodule YandexTranslator.Client do
       _ -> []
     end
   end
-
-  # Modify all phrases with replacing spaces for +
-  defp modify_phrase(value), do: String.replace(value, ~r/\s+/, "+")
 
   # add type of request to url
   defp prepare_url(url, type) do
