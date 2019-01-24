@@ -1,6 +1,6 @@
 defmodule YandexTranslator.Client do
   @moduledoc """
-  Client requests for old varsion of api, v 1.5
+  Client requests for old version of api, v1.5
   """
 
   @type api_key :: {:api_key, String.t()}
@@ -29,8 +29,8 @@ defmodule YandexTranslator.Client do
   defp generate_url(type, args) do
     args
     |> Keyword.put_new(:key, api_key())
-    |> Enum.filter(fn {key, _} -> Enum.member?(valid_args(type), key) end)
-    |> Enum.map(fn {key, value} -> "#{key}=#{URI.encode_www_form(value)}" end)
+    |> Stream.filter(fn {key, _} -> Enum.member?(valid_args(type), key) end)
+    |> Stream.map(fn {key, value} -> "#{key}=#{URI.encode_www_form(value)}" end)
     |> Enum.join("&")
     |> prepare_url(type)
   end

@@ -1,6 +1,6 @@
 defmodule YandexTranslator.Cloud do
   @moduledoc """
-  Cloud requests for new version of api
+  Client requests for new version of cloud api
   """
 
   @iam_token_url "https://iam.api.cloud.yandex.net/iam/v1/tokens"
@@ -71,8 +71,8 @@ defmodule YandexTranslator.Cloud do
   defp body(args, type) do
     args
     |> Keyword.put(:folderId, cloud_folder_id(args[:folder_id]))
-    |> Enum.filter(fn {key, _} -> Enum.member?(valid_args(type), key) end)
-    |> Enum.map(fn {key, value} -> "#{key}=#{URI.encode_www_form(value)}" end)
+    |> Stream.filter(fn {key, _} -> Enum.member?(valid_args(type), key) end)
+    |> Stream.map(fn {key, value} -> "#{key}=#{URI.encode_www_form(value)}" end)
     |> Enum.join("&")
   end
 

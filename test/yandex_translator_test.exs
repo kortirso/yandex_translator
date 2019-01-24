@@ -8,24 +8,21 @@ defmodule YandexTranslatorTest do
 
   describe "cloud api" do
     test "request for getting languages with invalid key" do
-      {:error, %{"error_code" => error_code, "error_message" => error_message}} = YandexTranslator.langs([iam_token: ""])
+      {:error, %{"error_message" => error_message}} = YandexTranslator.langs([iam_token: "1"])
 
-      assert error_code == "FORBIDDEN"
-      assert error_message == "You need send token and folder id"
+      assert error_message == "rpc error: code = Unauthenticated desc = invalid auth data"
     end
 
     test "request for detecting language with invalid key" do
-      {:error, %{"error_code" => error_code, "error_message" => error_message}} = YandexTranslator.detect([iam_token: "", text: "Hello"])
+      {:error, %{"error_message" => error_message}} = YandexTranslator.detect([iam_token: "1", text: "Hello"])
 
-      assert error_code == "FORBIDDEN"
-      assert error_message == "You need send token and folder id"
+      assert error_message == "rpc error: code = Unauthenticated desc = invalid auth data"
     end
 
     test "request for translating text with invalid key" do
-      {:error, %{"error_code" => error_code, "error_message" => error_message}} = YandexTranslator.translate([iam_token: "", text: "Hello", lang: "ru"])
+      {:error, %{"error_message" => error_message}} = YandexTranslator.translate([iam_token: "1", text: "Hello", lang: "ru"])
 
-      assert error_code == "FORBIDDEN"
-      assert error_message == "You need send token and folder id"
+      assert error_message == "rpc error: code = Unauthenticated desc = invalid auth data"
     end
 
     test "request for getting languages", state do
