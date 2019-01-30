@@ -44,10 +44,14 @@ In config/config.exs, add:
 
 ### Get IAM-token for cloud API access
 
-Request for getting list of supported languages is #langs.
+Request for getting IAM-token for access to cloud API.
 
 ```elixir
+  # without params
   YandexTranslator.get_iam_token
+
+  # or with key
+  YandexTranslator.get_iam_token([key: "API_KEY"])
 ```
 
 #### Options
